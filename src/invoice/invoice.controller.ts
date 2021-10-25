@@ -7,7 +7,7 @@ import { RequestInvoice } from './invoice_data.model';
 export class InvoiceController {
     constructor(private readonly appService: InvoiceService) {}
 
-    @Post()
+    @Post('generateInvoice')
     async sendEmail(@Body() model: RequestInvoice): Promise<void> {
         await this.appService.sendEmail(model);
     }
