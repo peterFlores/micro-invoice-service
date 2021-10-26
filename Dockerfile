@@ -1,13 +1,19 @@
-FROM node:12 
+FROM node:12
 
-WORKDIR /usr/src/app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+
+WORKDIR /home/node/app
 
 COPY package*.json ./
 
-RUN npm install 
+RUN npm install
 
 COPY . .
 
-COPY --from=development /usr/src/app/dist ./dist
+COPY --chown=node:node . .
 
-CMD ["node", "dist/main"]
+USER node
+
+EXPOSE 3006
+
+CMD [ "npm", "start" ]
