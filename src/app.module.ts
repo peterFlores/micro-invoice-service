@@ -12,7 +12,7 @@ import { InvoiceModule } from './invoice/invoice.module';
     InvoiceModule,
     ConfigModule.forRoot(),
     SendGridModule.forRoot({apikey: process.env.SEND_GRID_ACCESS_KEY}),
-    MongooseModule.forRoot('mongodb://admin:admin@localhost:27017/hostal', {
+    MongooseModule.forRoot('mongodb://admin:admin@137.135.92.123:27017/hostal', {
       autoCreate: true
     })
   ],
