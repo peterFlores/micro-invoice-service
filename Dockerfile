@@ -1,15 +1,28 @@
-FROM node:12.19.0-alpine3.9 
-
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+FROM node:12.19.0-alpine3.9 AS development
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-USER node
-
 RUN npm install 
 
-COPY --chown=node:node . .
+COPY . .
+
+RUN npm run build
+
+FROM node:12.19.0-alpine3.9 as production
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY . .
+
+COPY --from=development /usr/src/app/dist ./dist
 
 CMD ["node", "dist/main"]
